@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ equipment.name }} | AstroJournal{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'equipment:equipment_list' %}">
+    ← All equipment
+</a>
+
+<section class="detail-panel">
+    <span class="type-label">{{ equipment.get_equipment_type_display }}</span>
+    <h1>{{ equipment.name }}</h1>
+
+    <dl class="detail-list">
+        <dt>Brand</dt>
+        <dd>{{ equipment.brand|default:"Not specified" }}</dd>
+
+        <dt>Specifications</dt>
+        <dd>{{ equipment.equipment_specs|default:"Not specified" }}</dd>
+
+        <dt>Accessories</dt>
+        <dd>{{ equipment.accessories|default:"Not specified" }}</dd>
+    </dl>
+
+    <div class="action-row">
+        <a class="button button-primary"
+           href="{% url 'equipment:edit' equipment.pk %}">Edit equipment</a>
+        <a class="button button-danger-outline"
+           href="{% url 'equipment:delete' equipment.pk %}">Delete</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Equipment | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR ASTRONOMY KIT</span>
+        <h1>My equipment</h1>
+        <p>Keep your observing tools organised in one place.</p>
+    </div>
+    <a class="button button-primary"
+       href="{% url 'equipment:create' %}">+ Add equipment</a>
+</section>
+
+<div class="card-grid">
+    {% for item in equipment %}
+        <article class="card">
+            <span class="type-label">{{ item.get_equipment_type_display }}</span>
+            <h2>{{ item.name }}</h2>
+            {% if item.brand %}
+                <p class="muted">Brand: {{ item.brand }}</p>
+            {% endif %}
+            {% if item.equipment_specs %}
+                <p>{{ item.equipment_specs }}</p>
+            {% endif %}
+            <a class="text-link"
+               href="{% url 'equipment:details' item.pk %}">
+                View equipment →
+            </a>
+        </article>
+    {% empty %}
+        <div class="empty-state">
+            <span class="empty-icon">⌕</span>
+            <h2>Your equipment list is empty</h2>
+            <p>Add the tools you use when observing the night sky.</p>
+            <a class="button button-primary"
+               href="{% url 'equipment:create' %}">Add equipment</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

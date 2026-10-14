@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="confirmation-panel">
+    <span class="eyebrow">LOST IN SPACE?</span>
+    <h1>404 — Page not found</h1>
+    <p>
+        It looks like this page has drifted beyond our observable
+        universe. Let's get you back on course.
+    </p>
+    <div class="action-row" style="justify-content: center;">
+        <a class="button button-primary" href="{% url 'home' %}">
+            Return to dashboard
+        </a>
+    </div>
+</section>
+{% endblock %}

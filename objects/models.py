@@ -10,6 +10,8 @@ class CelestialObject(models.Model):
         SATELLITE = 'Satellite', 'Satellite'
         CLUSTER = 'Cluster', 'Cluster'
         NEBULA = 'Nebula', 'Nebula'
+        COMET = 'Comet', 'Comet'
+        GALAXY = 'Galaxy', 'Galaxy'
 
     name = models.CharField(
         max_length=200,
@@ -25,3 +27,6 @@ class CelestialObject(models.Model):
         max_length=200,
         blank=True,
     )
+
+    def __str__(self):
+        return self.name

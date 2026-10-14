@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+from django.conf.global_settings import STATICFILES_DIRS
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,11 @@ SECRET_KEY = 'django-insecure-n$0wqh9$b32-04#wk_l8@%tz8ga@!1z70qm^5d%n4^$4_5st%5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'grumble-overbuilt-exclusion.ngrok-free.dev',
+    '127.0.0.1',
+    'localhost'
+]
 
 
 # Application definition
@@ -125,6 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 
 # Email
@@ -135,3 +144,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://grumble-overbuilt-exclusion.ngrok-free.dev'
+]

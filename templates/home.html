@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Home | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <span class="eyebrow">YOUR PERSONAL ASTRONOMY JOURNAL</span>
+    <h1>Look up. <span>Wonder more.</span></h1>
+    <p>
+        Keep track of the celestial objects you discover,
+        the equipment you use, and the nights you spend
+        exploring the universe.
+    </p>
+    <a class="button button-primary"
+       href="{% url 'observations:observation_list' %}">
+        Explore my observations →
+    </a>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR ASTRONOMY WORKSPACE</span>
+            <h2>Where would you like to start?</h2>
+        </div>
+    </div>
+
+    <div class="card-grid dashboard-grid">
+        <article class="card dashboard-card">
+            <div class="card-icon">✦</div>
+            <h3>Sky objects</h3>
+            <p>
+                Explore planets, stars, constellations,
+                nebulae and other celestial objects.
+            </p>
+            <a class="text-link"
+               href="{% url 'objects:object_list' %}">
+                Browse objects →
+            </a>
+        </article>
+
+        <article class="card dashboard-card">
+            <div class="card-icon">⌕</div>
+            <h3>My equipment</h3>
+            <p>
+                Keep a catalogue of your telescopes,
+                binoculars, cameras and accessories.
+            </p>
+            <a class="text-link"
+               href="{% url 'equipment:equipment_list' %}">
+                View equipment →
+            </a>
+        </article>
+
+        <article class="card dashboard-card">
+            <div class="card-icon">☷</div>
+            <h3>Observation log</h3>
+            <p>
+                Record what you observed, when you saw it,
+                where you were and what you used.
+            </p>
+            <a class="text-link"
+               href="{% url 'observations:observation_list' %}">
+                Open journal →
+            </a>
+        </article>
+    </div>
+</section>
+
+<section class="welcome-note">
+    <span class="note-icon">☾</span>
+    <div>
+        <h3>Every clear night is a new opportunity.</h3>
+        <p>
+            Start small, record what you see, and build
+            your own history of exploring the sky.
+        </p>
+    </div>
+</section>
+{% endblock %}

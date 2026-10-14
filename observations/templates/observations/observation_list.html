@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Observations | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR NIGHT-SKY DIARY</span>
+        <h1>Observation log</h1>
+        <p>Look back on the objects you've observed and the nights you've spent exploring.</p>
+    </div>
+    <a class="button button-primary"
+       href="{% url 'observations:create' %}">+ Log observation</a>
+</section>
+
+<div class="observation-list">
+    {% for entry in observations %}
+        <article class="card observation-card">
+            <div class="observation-date">
+                <span class="date-label">OBSERVED</span>
+                <strong>{{ entry.date_observed|date:"d M Y" }}</strong>
+                <span class="muted">{{ entry.date_observed|date:"H:i" }}</span>
+            </div>
+
+            <div class="observation-content">
+                <span class="type-label">
+                    {{ entry.celestial_object.get_object_type_display }}
+                </span>
+                <h2>{{ entry.celestial_object.name }}</h2>
+
+                {% if entry.location %}
+                    <p class="muted">⌖ {{ entry.location }}</p>
+                {% endif %}
+
+                <p>{{ entry.notes|default:"No notes for this observation."|truncatechars:160 }}</p>
+                <a class="text-link"
+                   href="{% url 'observations:details' entry.pk %}">
+                    Read entry →
+                </a>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state">
+            <span class="empty-icon">☾</span>
+            <h2>No observations recorded yet</h2>
+            <p>Your next clear night could be the first entry in your journal.</p>
+            <a class="button button-primary"
+               href="{% url 'observations:create' %}">Log your first observation</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

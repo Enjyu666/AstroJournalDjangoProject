@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Equipment Form | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <a class="back-link" href="{% url 'equipment:equipment_list' %}">
+        ← Back to equipment
+    </a>
+
+    <h1>{% if form.instance.pk %}Edit equipment{% else %}Add equipment{% endif %}</h1>
+    <p>Enter the details of your observing equipment.</p>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button class="button button-primary" type="submit">Save equipment</button>
+            <a class="button button-secondary"
+               href="{% url 'equipment:equipment_list' %}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

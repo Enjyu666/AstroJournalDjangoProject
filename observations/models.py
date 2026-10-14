@@ -10,9 +10,9 @@ class ObservationLog(models.Model):
         max_length=100,
         blank=True
     )
+    equipment = models.ManyToManyField(Equipment)
     notes = models.TextField(
         max_length=500,
         blank=True
     )
-    equipment = models.ManyToManyField(Equipment)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Equipment | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="confirmation-panel">
+    <div class="warning-icon">!</div>
+    <h1>Remove this equipment?</h1>
+    <p>Are you sure you want to delete <strong>{{ equipment.name }}</strong>?</p>
+
+    <form method="post" class="action-row">
+        {% csrf_token %}
+        <button class="button button-danger" type="submit">Yes, delete</button>
+        <a class="button button-secondary"
+           href="{% url 'equipment:details' equipment.pk %}">Cancel</a>
+    </form>
+</section>
+{% endblock %}

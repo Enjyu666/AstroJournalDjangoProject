@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Observation | AstroJournal{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'observations:observation_list' %}">
+    ← All observations
+</a>
+
+<article class="detail-panel">
+    <span class="eyebrow">OBSERVATION RECORD</span>
+    <h1>{{ observation.celestial_object.name }}</h1>
+
+    <p class="muted">
+        {{ observation.date_observed|date:"d F Y, H:i" }}
+    </p>
+
+    <dl class="detail-list">
+        <dt>Object type</dt>
+        <dd>{{ observation.celestial_object.get_object_type_display }}</dd>
+
+        <dt>Location</dt>
+        <dd>{{ observation.location|default:"Not specified" }}</dd>
+
+        <dt>Equipment used</dt>
+        <dd>
+            {% for item in observation.equipment.all %}
+                <span class="type-label">{{ item.name }}</span>
+            {% empty %}
+                No equipment recorded
+            {% endfor %}
+        </dd>
+
+        <dt>Notes</dt>
+        <dd>{{ observation.notes|default:"No notes added."|linebreaksbr }}</dd>
+
+        <dt>Entry created</dt>
+        <dd>{{ observation.created_at|date:"d F Y, H:i" }}</dd>
+    </dl>
+
+    <div class="action-row">
+        <a class="button button-primary"
+           href="{% url 'observations:edit' observation.pk %}">Edit entry</a>
+        <a class="button button-danger-outline"
+           href="{% url 'observations:delete' observation.pk %}">Delete entry</a>
+    </div>
+</article>
+{% endblock %}

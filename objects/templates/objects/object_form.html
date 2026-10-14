@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Object Form | AstroJournal{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'objects:object_list' %}">
+    ← Back to objects
+</a>
+
+<section class="form-panel">
+    <span class="eyebrow">YOUR SKY CATALOGUE</span>
+    <h1>{% if form.instance.pk %}Edit object{% else %}Add a celestial object{% endif %}</h1>
+    <p>Record the details of something you'd like to explore.</p>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button class="button button-primary" type="submit">Save object</button>
+            <a class="button button-secondary"
+               href="{% url 'objects:object_list' %}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
