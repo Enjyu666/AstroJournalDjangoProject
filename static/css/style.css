@@ -115,7 +115,8 @@ h3 {
 /* ---------- Hero and headings ---------- */
 
 .hero {
-    padding: 70px 0 65px;
+    /*padding: 70px 0 65px;*/
+    padding: 15px 0 35px;
     max-width: 760px;
 }
 
@@ -327,6 +328,11 @@ input, select, textarea {
     background: #0b192d;
     color: var(--text);
     font: inherit;
+}
+
+textarea {
+    height: 130px;
+    resize: vertical;
 }
 
 .filter-bar input {
@@ -622,3 +628,155 @@ input:focus, select:focus, textarea:focus {
         width: 100%;
     }
 }
+
+
+/*newly added css*/
+
+
+.quick-start {
+    margin: 2.5rem 0;
+}
+
+.quick-start-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.quick-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(150, 170, 210, 0.2);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.step-number {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #9cafff;
+    padding-top: 0.2rem;
+}
+
+.quick-step h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+}
+
+.quick-step p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #aab5cf;
+}
+
+.quick-step a {
+    margin-left: auto;
+    color: #b9c7ff;
+    font-size: 1.3rem;
+    text-decoration: none;
+}
+
+.quick-step a:hover {
+    color: white;
+}
+
+.quick-start-note {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #aab5cf;
+}
+
+.quick-start-note span {
+    color: #b9c7ff;
+    margin-right: 0.4rem;
+}
+
+@media (max-width: 750px) {
+    .quick-start-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Rating field */
+.rating-hint {
+    margin: 4px 0 10px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Star rating container */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+}
+
+/* Hide the actual radio buttons */
+.star-rating input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+/* Stars before selection */
+.star-rating label {
+    font-size: 2rem;
+    line-height: 1;
+    color: #9ba6b8;
+    cursor: pointer;
+    transition: color 0.2s ease, text-shadow 0.2s ease,
+                transform 0.2s ease;
+}
+
+/* Hover and selected stars */
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #ffd166;
+    text-shadow: 0 0 8px rgba(255, 209, 102, 0.65);
+}
+
+/* Slight animation when hovering */
+.star-rating label:hover {
+    transform: scale(1.15);
+}
+
+/* Keyboard accessibility */
+.star-rating input:focus-visible + label {
+    outline: 2px solid #ffd166;
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+/* Stars displayed on observation cards and detail pages */
+.rating-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.rating-stars .star {
+    color: #9ba6b8;
+}
+
+.rating-stars .star.filled {
+    color: #ffd166;
+    text-shadow: 0 0 6px rgba(255, 209, 102, 0.4);
+}
+
+.rating-number {
+    font-size: 0.85rem;
+    color: #888;
+}
+

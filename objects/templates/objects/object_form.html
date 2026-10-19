@@ -12,7 +12,7 @@
     <h1>{% if form.instance.pk %}Edit object{% else %}Add a celestial object{% endif %}</h1>
     <p>Record the details of something you'd like to explore.</p>
 
-    <form method="post" class="styled-form">
+    <form method="post" class="styled-form" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
 

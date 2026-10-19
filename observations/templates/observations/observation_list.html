@@ -20,6 +20,25 @@
                 <span class="date-label">OBSERVED</span>
                 <strong>{{ entry.date_observed|date:"d M Y" }}</strong>
                 <span class="muted">{{ entry.date_observed|date:"H:i" }}</span>
+
+
+                <div class="observation-rating">
+                    {% if entry.rating %}
+                        <span class="rating-stars">
+                            {% for star in "12345" %}
+                                {% if forloop.counter <= entry.rating %}
+                                    <span class="star filled">★</span>
+                                {% else %}
+                                    <span class="star">★</span>
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                    {% else %}
+                        <span class="rating-number">Not rated</span>
+                    {% endif %}
+                </div>
+
+
             </div>
 
             <div class="observation-content">

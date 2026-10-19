@@ -11,7 +11,7 @@
     <h1>{% if form.instance.pk %}Edit equipment{% else %}Add equipment{% endif %}</h1>
     <p>Enter the details of your observing equipment.</p>
 
-    <form method="post" class="styled-form">
+    <form method="post" class="styled-form" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
 

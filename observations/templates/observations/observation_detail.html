@@ -31,6 +31,25 @@
             {% endfor %}
         </dd>
 
+
+    <dt>Rating</dt>
+        <dd>
+            {% if observation.rating %}
+                <span class="rating-stars">
+                    {% for star in "12345" %}
+                        {% if forloop.counter <= observation.rating %}
+                            <span class="star filled">★</span>
+                        {% else %}
+                            <span class="star">★</span>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+            {% else %}
+                Not rated
+            {% endif %}
+        </dd>
+
+
         <dt>Notes</dt>
         <dd>{{ observation.notes|default:"No notes added."|linebreaksbr }}</dd>
 

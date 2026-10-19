@@ -17,6 +17,19 @@
     </a>
 </section>
 
+    {% if not has_objects %}
+{#        <div class="quick-start-reminder">#}
+{#            <p>#}
+{#                <span>✦ </span><strong>Your sky catalogue has begun!</strong>#}
+{#                Add your equipment and log your first observation.#}
+{#            </p>#}
+{#        </div>#}
+{#    {% else %}#}
+        {% include 'first_steps.html' %}
+    {% endif %}
+
+
+
 <section class="section">
     <div class="section-heading">
         <div>
@@ -67,6 +80,8 @@
     </div>
 </section>
 
+
+
 <section class="welcome-note">
     <span class="note-icon">☾</span>
     <div>
@@ -78,3 +93,6 @@
     </div>
 </section>
 {% endblock %}
+
+
+

@@ -12,6 +12,41 @@
         recorded on {{ observation.date_observed|date:"d M Y" }}.
     </p>
 
+    <div class="styled-form">
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </p>
+    {% endfor %}
+    </div>
+
+{##}
+{#    <div class="styled-form">#}
+{#        {% for field in form %}#}
+{#            {% if field.name == 'rating' %}#}
+{#                <p>#}
+{#                    {{ field.label_tag }}#}
+{#                    <div class="star-rating">#}
+{#                        {% for radio in field %}#}
+{#                            {{ radio.tag }}#}
+{#                            <label for="{{ radio.id_for_label }}">★</label>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                    {{ field.errors }}#}
+{#                </p>#}
+{#            {% else %}#}
+{#                <p>#}
+{#                    {{ field.label_tag }}#}
+{#                    {{ field }}#}
+{#                    {{ field.errors }}#}
+{#                </p>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+
     <form method="post" class="action-row">
         {% csrf_token %}
         <button class="button button-danger" type="submit">Yes, delete entry</button>

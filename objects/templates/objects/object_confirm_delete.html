@@ -11,6 +11,16 @@
         This action cannot be undone.
     </p>
 
+    <div class="styled-form">
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </p>
+    {% endfor %}
+    </div>
+
     <form method="post" class="action-row">
         {% csrf_token %}
         <button class="button button-danger" type="submit">

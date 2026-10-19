@@ -1,0 +1,41 @@
+    <section class="quick-start">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">NEW TO ASTROJOURNAL?</span>
+            <h2>Three steps to get started.</h2>
+        </div>
+    </div>
+
+    <div class="quick-start-steps">
+        <div class="quick-step">
+            <span class="step-number">01</span>
+            <div>
+                <h3>Add sky objects</h3>
+                <p>Build your celestial catalogue.</p>
+            </div>
+            <a href="{% url 'objects:object_list' %}" aria-label="Add sky objects">→</a>
+        </div>
+
+        <div class="quick-step">
+            <span class="step-number">02</span>
+            <div>
+                <h3>Add equipment</h3>
+                <p>Keep track of your astronomy gear.</p>
+            </div>
+            <a href="{% url 'equipment:equipment_list' %}" aria-label="Add equipment">→</a>
+        </div>
+
+        <div class="quick-step">
+            <span class="step-number">03</span>
+            <div>
+                <h3>Log observations</h3>
+                <p>Record your nights under the stars.</p>
+            </div>
+            <a href="{% url 'observations:observation_list' %}" aria-label="Log observations">→</a>
+        </div>
+    </div>
+
+    <p class="quick-start-note">
+        <span>✦</span> Add at least one sky object before logging your first observation.
+    </p>
+</section>

@@ -12,9 +12,34 @@
     <h1>{% if form.instance.pk %}Edit observation{% else %}Log an observation{% endif %}</h1>
     <p>Record what you saw and how you observed it.</p>
 
-    <form method="post" class="styled-form">
+    <form method="post" class="styled-form" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
+
+        {% for field in form %}
+            {% if field.name == 'rating' %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    <p class="rating-hint">Rate your observing experience</p>
+
+                    <div class="star-rating">
+                        {% for radio in field %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}">★</label>
+                        {% endfor %}
+                    </div>
+
+                    {{ field.errors }}
+                </div>
+            {% else %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </p>
+            {% endif %}
+        {% endfor %}
+
+
 
         <div class="action-row">
             <button class="button button-primary" type="submit">Save observation</button>

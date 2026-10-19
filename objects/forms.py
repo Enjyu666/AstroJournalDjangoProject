@@ -1,5 +1,6 @@
 from django import forms
 
+from ExamProject.mixins import DisabledFieldsMixin
 from objects.models import CelestialObject
 
 
@@ -9,18 +10,34 @@ class BaseObjectForm(forms.ModelForm):
     class Meta:
         model = CelestialObject
         fields = '__all__'
-        # error_messages = {
-        #     'name': ['The object name cannot contain less than 2 characters']
-        # }
+
 
 
 class CreateObjectForm(BaseObjectForm):
-    ...
+
+    class Meta(BaseObjectForm.Meta):
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'placeholder': 'e.g. Andromeda'
+            }),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'e.g. Nearest galaxy to the Milky Way (Optional)'
+            }),
+        }
+        error_messages = {
+            'name': {
+                'min_length': 'The object name must contain at least 2 characters.',
+                'required': 'Please enter an object name.',
+            },
+            'object_type': {
+                'required': 'Please select an object type.',
+            },
+        }
 
 
 class EditObjectForm(BaseObjectForm):
     ...
 
 
-class DeleteObjectForm(BaseObjectForm):
+class DeleteObjectForm(DisabledFieldsMixin, BaseObjectForm):
     ...
