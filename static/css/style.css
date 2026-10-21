@@ -242,6 +242,13 @@ h3 {
     gap: 20px;
 }
 
+/*.card-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));*/
+/*    gap: 20px;*/
+/*    width: 100%;*/
+/*}*/
+
 .card {
     min-width: 0;
     padding: 23px;
@@ -780,3 +787,53 @@ input:focus, select:focus, textarea:focus {
     color: #888;
 }
 
+.object-profile-image {
+    display: block;
+    justify-content: flex-end;
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+    margin: 16px 0;
+}
+
+.observation-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.observation-photo {
+    width: 180px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.photo-upload-section {
+    margin-top: 30px;
+}
+
+.object-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    grid-column: 1 / -1;
+}
+
+.object-card-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.object-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.action-right {
+    margin-left: auto;
+}

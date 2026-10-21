@@ -5,7 +5,7 @@ from objects.models import CelestialObject
 
 
 def object_list(request):
-    objects = CelestialObject.objects.all()
+    objects = CelestialObject.objects.all().order_by('name')
 
     context = {
         'objects': objects,
@@ -15,7 +15,7 @@ def object_list(request):
 
 
 def object_create(request):
-    form = CreateObjectForm(request.POST or None)
+    form = CreateObjectForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
         form.save()
@@ -40,7 +40,7 @@ def object_detail(request, pk):
 
 def object_edit(request, pk):
     object = get_object_or_404(CelestialObject, pk=pk)
-    form = EditObjectForm(request.POST or None, instance=object)
+    form = EditObjectForm(request.POST or None, request.FILES or None, instance=object)
 
     if form.is_valid():
         form.save()

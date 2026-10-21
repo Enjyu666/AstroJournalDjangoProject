@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Celestial Objects | AstroJournal{% endblock %}
 
@@ -6,30 +7,47 @@
 <section class="page-heading">
     <div>
         <span class="eyebrow">EXPLORE THE UNIVERSE</span>
-        <h1>Celestial Objects</h1>
+        <h1>My celestial objects</h1>
         <p>Your personal catalogue of the night sky.</p>
     </div>
     <a class="button button-primary"
        href="{% url 'objects:create' %}">+ Add object</a>
 </section>
 
-<div class="card-grid">
+
+    <div class="card-grid">
     {% for obj in objects %}
-        <article class="card">
-            <span class="type-label">
-                {{ obj.get_object_type_display }}
-            </span>
+        <article class="card object-card">
+            {% if obj.image %}
+                <img
+                    src="{{ obj.image.url }}"
+                    alt="{{ obj.name }}"
+                    class="object-card-image"
+                >
+            {% else %}
+                <img
+                    src="{% static 'images/object-placeholder.png' %}"
+                    alt="Astronomy placeholder"
+                    class="object-card-image"
+                >
+            {% endif %}
 
-            <h2>{{ obj.name }}</h2>
+            <div class="object-card-content">
+                <span class="type-label">
+                    {{ obj.get_object_type_display }}
+                </span>
 
-            <p>
-                {{ obj.description|default:"No description added yet." }}
-            </p>
+                <h2>{{ obj.name }}</h2>
 
-            <a class="text-link"
-               href="{% url 'objects:details' obj.pk %}">
-                View object →
-            </a>
+                <p>
+                    {{ obj.description|default:"No description added yet." }}
+                </p>
+
+                <a class="text-link"
+                   href="{% url 'objects:details' obj.pk %}">
+                    View object →
+                </a>
+            </div>
         </article>
     {% empty %}
         <div class="empty-state">
@@ -39,5 +57,9 @@
                href="{% url 'objects:create' %}">Add object</a>
         </div>
     {% endfor %}
+</div>
+
+
+
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@
     <h1>{% if form.instance.pk %}Edit observation{% else %}Log an observation{% endif %}</h1>
     <p>Record what you saw and how you observed it.</p>
 
-    <form method="post" class="styled-form" novalidate>
+    <form method="post" class="styled-form" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
         {% for field in form %}
@@ -40,6 +40,36 @@
         {% endfor %}
 
 
+    {% if form.instance.pk and form.instance.images.all %}
+        <p>Existing photos</p>
+
+        <div class="observation-gallery">
+            {% for photo in form.instance.images.all %}
+                <a href="{{ photo.image.url }}" target="_blank">
+                    <img
+                        src="{{ photo.image.url }}"
+                        alt="Existing observation photo"
+                        class="observation-photo"
+                    >
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+        <div class="photo-upload-section">
+            <p>
+                <label for="id_images">Observation photos</label>
+                <input
+                    type="file"
+                    name="images"
+                    id="id_images"
+                    accept="image/*"
+                    multiple
+                >
+                <small>You can select multiple photos for this observation.</small>
+            </p>
+        </div>
 
         <div class="action-row">
             <button class="button button-primary" type="submit">Save observation</button>

@@ -28,5 +28,11 @@ class CelestialObject(models.Model):
         blank=True,
     )
 
+    image = models.ImageField(
+        upload_to='celestial_object_images/',
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return self.name

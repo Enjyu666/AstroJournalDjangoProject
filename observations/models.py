@@ -27,3 +27,18 @@ class ObservationLog(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.celestial_object.name
+
+
+
+class ObservationImage(models.Model):
+    observation = models.ForeignKey(
+        ObservationLog,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to='observation_images/')
+
+    def __str__(self):
+        return f'{self.observation}'

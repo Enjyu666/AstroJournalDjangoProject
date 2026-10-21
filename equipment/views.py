@@ -5,7 +5,7 @@ from equipment.models import Equipment
 
 
 def equipment_list(request):
-    equipment = Equipment.objects.all()
+    equipment = Equipment.objects.all().order_by('equipment_type')
 
     context = {
         'equipment': equipment

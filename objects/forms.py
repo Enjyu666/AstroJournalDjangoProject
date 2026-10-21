@@ -40,4 +40,6 @@ class EditObjectForm(BaseObjectForm):
 
 
 class DeleteObjectForm(DisabledFieldsMixin, BaseObjectForm):
-    ...
+
+    class Meta(BaseObjectForm.Meta):
+        exclude = ['image']

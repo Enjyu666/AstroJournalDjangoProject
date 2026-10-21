@@ -57,6 +57,23 @@
         <dd>{{ observation.created_at|date:"d F Y, H:i" }}</dd>
     </dl>
 
+    {% if observation.images.all %}
+        <h3>Observation photos</h3>
+
+        <div class="observation-gallery">
+            {% for photo in observation.images.all %}
+                <a href="{{ photo.image.url }}" target="_blank">
+                    <img
+                        src="{{ photo.image.url }}"
+                        alt="Photo from {{ observation }}"
+                        class="observation-photo"
+                    >
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
     <div class="action-row">
         <a class="button button-primary"
            href="{% url 'observations:edit' observation.pk %}">Edit entry</a>

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
+from objects.models import CelestialObject
 from observations.forms import CreateObservationForm, EditObservationForm, DeleteObservationForm
-from observations.models import ObservationLog
+from observations.models import ObservationLog, ObservationImage
 
 
 def observation_list(request):
-    observations = ObservationLog.objects.all()
+    observations = ObservationLog.objects.all().order_by('-date_observed')
 
     context = {
         'observations': observations,
@@ -14,11 +15,21 @@ def observation_list(request):
     return render(request, 'observations/observation_list.html', context)
 
 
-def observation_create(request):
-    form = CreateObservationForm(request.POST or None)
+def observation_create(request, pk=None):
+    initial = {}
+
+    if pk is not None:
+        celestial_object = get_object_or_404(CelestialObject, pk=pk)
+        initial['celestial_object'] = celestial_object
+
+    form = CreateObservationForm(request.POST or None, request.FILES or None, initial=initial)
 
     if form.is_valid():
-        form.save()
+        observation = form.save()
+
+        for img in request.FILES.getlist('images'):
+            ObservationImage.objects.create(observation=observation, image=img)
+
         return redirect('observations:observation_list')
 
     context = {
@@ -40,10 +51,14 @@ def observation_detail(request, pk):
 
 def observation_edit(request, pk):
     observation = get_object_or_404(ObservationLog, pk=pk)
-    form = EditObservationForm(request.POST or None, instance=observation)
+    form = EditObservationForm(request.POST or None, request.FILES or None, instance=observation)
 
     if form.is_valid():
         form.save()
+
+        for img in request.FILES.getlist('images'):
+            ObservationImage.objects.create(observation=observation, image=img)
+
         return redirect('observations:observation_list')
 
     context = {
@@ -67,4 +82,26 @@ def observation_delete(request, pk):
     }
 
     return render(request, 'observations/observation_confirm_delete.html', context)
+
+
+def gallery(request):
+    images = ObservationImage.objects.select_related(
+        'observation',
+        'observation__celestial_object'
+    ).order_by('-id')
+
+    context = {
+        'images': images
+    }
+
+    return render(request, 'observations/gallery.html', context)
+
+
+
+
+
+
+
+
+
 

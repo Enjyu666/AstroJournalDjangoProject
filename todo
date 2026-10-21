@@ -1,10 +1,10 @@
 capitalise user input
-add files section (observations + objects)/ gallery?
 ----
 custom tags/filters
 ----
 Include pages that display all objects, <filtered/sorted> objects, and single-object details.
 README
+requirements.txt?
 -----
 
 
@@ -14,7 +14,7 @@ README
 done/te review
 Customize error messages, help texts, labels, and placeholders.
 finish placeholders for observations text input
-Include read-only or disabled fields in at least one form.
+add files section (observations + objects)/ gallery?
 
 
 
@@ -22,3 +22,5 @@ Include read-only or disabled fields in at least one form.
 done/done
 validator observation date is not in the future
 add rating to observations
+Include read-only or disabled fields in at least one form.
+button to log observation from object

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery | AstroJournal{% endblock %}
+
+{% block content %}
+<h1>Gallery</h1>
+<p>Photos from your astronomical observations.</p>
+
+{% if images %}
+    <div class="observation-gallery">
+        {% for photo in images %}
+            <div>
+                <a href="{{ photo.image.url }}" target="_blank">
+                    <img
+                        src="{{ photo.image.url }}"
+                        alt="Photo from {{ photo.observation }}"
+                        class="observation-photo"
+                    >
+                </a>
+
+                <p>
+                    <a href="{% url 'observations:details' photo.observation.pk %}">
+                        {{ photo.observation }}
+                    </a>
+                </p>
+
+{#                <p>#}
+{#                    Object:#}
+{#                    {{ photo.observation.celestial_object.name }}#}
+{#                </p>#}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No photos have been uploaded yet. Add photos to an observation to see them here.</p>
+{% endif %}
+{% endblock %}

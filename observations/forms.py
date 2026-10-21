@@ -38,7 +38,6 @@ class CreateObservationForm(BaseObservationForm):
 
             'notes': forms.Textarea(attrs={
                 'placeholder': 'e.g. Clear sky, good visibility',
-                # 'rows': 5
             }),
             'rating': forms.RadioSelect(choices=[
                 (5, '5 stars'),
@@ -76,4 +75,5 @@ class DeleteObservationForm(DisabledFieldsMixin, BaseObservationForm):
 
     class Meta(BaseObservationForm.Meta):
 
-        exclude = ['rating']
+        exclude = ['rating', 'image']
+
