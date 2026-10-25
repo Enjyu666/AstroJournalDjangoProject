@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load astro_filters %}
+
 
 {% block title %}{{ equipment.name }} | AstroJournal{% endblock %}
 
@@ -9,17 +11,17 @@
 
 <section class="detail-panel">
     <span class="type-label">{{ equipment.get_equipment_type_display }}</span>
-    <h1>{{ equipment.name }}</h1>
+    <h1>{{ equipment.name|lower_cap_case }}</h1>
 
     <dl class="detail-list">
         <dt>Brand</dt>
-        <dd>{{ equipment.brand|default:"Not specified" }}</dd>
+        <dd>{{ equipment.brand|lower_cap_case|default:"Not specified" }}</dd>
 
         <dt>Specifications</dt>
-        <dd>{{ equipment.equipment_specs|default:"Not specified" }}</dd>
+        <dd>{{ equipment.equipment_specs|lower_cap_case|default:"Not specified" }}</dd>
 
         <dt>Accessories</dt>
-        <dd>{{ equipment.accessories|default:"Not specified" }}</dd>
+        <dd>{{ equipment.accessories|lower_cap_case|default:"Not specified" }}</dd>
     </dl>
 
     <div class="action-row">

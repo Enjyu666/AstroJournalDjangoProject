@@ -11,11 +11,11 @@ class BaseObservationForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'rating': forms.RadioSelect(choices=[
-                (5, '5 stars'),
-                (4, '4 stars'),
-                (3, '3 stars'),
-                (2, '2 stars'),
-                (1, '1 star'),
+                ('5', '5 stars'),
+                ('4', '4 stars'),
+                ('3', '3 stars'),
+                ('2', '2 stars'),
+                ('1', '1 star')
             ]),
 
         }
@@ -40,11 +40,11 @@ class CreateObservationForm(BaseObservationForm):
                 'placeholder': 'e.g. Clear sky, good visibility',
             }),
             'rating': forms.RadioSelect(choices=[
-                (5, '5 stars'),
-                (4, '4 stars'),
-                (3, '3 stars'),
-                (2, '2 stars'),
-                (1, '1 star'),
+                ('5', '5 stars'),
+                ('4', '4 stars'),
+                ('3', '3 stars'),
+                ('2', '2 stars'),
+                ('1', '1 star')
             ]),
 
         }

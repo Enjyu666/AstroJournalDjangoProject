@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load astro_filters %}
+
 
 {% block title %}Equipment | AstroJournal{% endblock %}
 
@@ -17,12 +19,12 @@
     {% for item in equipment %}
         <article class="card">
             <span class="type-label">{{ item.get_equipment_type_display }}</span>
-            <h2>{{ item.name }}</h2>
+            <h2>{{ item.name|lower_cap_case }}</h2>
             {% if item.brand %}
-                <p class="muted">Brand: {{ item.brand }}</p>
+                <p class="muted">Brand: {{ item.brand|lower_cap_case }}</p>
             {% endif %}
             {% if item.equipment_specs %}
-                <p>{{ item.equipment_specs }}</p>
+                <p>{{ item.equipment_specs|lower_cap_case }}</p>
             {% endif %}
             <a class="text-link"
                href="{% url 'equipment:details' item.pk %}">

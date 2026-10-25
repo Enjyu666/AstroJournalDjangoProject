@@ -6,6 +6,15 @@ from equipment.models import Equipment
 
 class BaseEquipmentForm(forms.ModelForm):
 
+    def save(self, commit=True):
+        equipment = super().save(commit=False)
+        equipment.name = equipment.name.capitalize()
+
+        if commit:
+            equipment.save()
+
+        return equipment
+
     class Meta:
         model = Equipment
         fields = '__all__'

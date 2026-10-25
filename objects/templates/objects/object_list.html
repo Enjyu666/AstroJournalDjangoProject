@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load astro_filters %}
 
 {% block title %}Celestial Objects | AstroJournal{% endblock %}
 
@@ -37,10 +38,10 @@
                     {{ obj.get_object_type_display }}
                 </span>
 
-                <h2>{{ obj.name }}</h2>
+                <h2>{{ obj.name|lower_cap_case }}</h2>
 
                 <p>
-                    {{ obj.description|default:"No description added yet." }}
+                    {{ obj.description|lower_cap_case|default:"No description added yet." }}
                 </p>
 
                 <a class="text-link"
@@ -59,7 +60,4 @@
     {% endfor %}
 </div>
 
-
-
-</div>
 {% endblock %}

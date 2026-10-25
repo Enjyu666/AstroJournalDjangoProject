@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load astro_filters %}
 
 {% block title %}{{ object.name }} | AstroJournal{% endblock %}
 
@@ -10,7 +11,7 @@
 
 <section class="detail-panel">
     <span class="type-label">{{ object.get_object_type_display }}</span>
-    <h1>{{ object.name }}</h1>
+    <h1>{{ object.name|lower_cap_case }}</h1>
 
     {% if object.image %}
         <img
@@ -29,7 +30,7 @@
     <div class="detail-section">
         <h2>About this object</h2>
         <p class="detail-description">
-            {{ object.description|default:"No description has been added yet."|linebreaksbr }}
+            {{ object.description|lower_cap_case|default:"No description has been added yet."|linebreaksbr }}
         </p>
     </div>
 

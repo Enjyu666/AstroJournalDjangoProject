@@ -6,6 +6,15 @@ from objects.models import CelestialObject
 
 class BaseObjectForm(forms.ModelForm):
 
+    def save(self, commit=True):
+        object = super().save(commit=False)
+        object.name = object.name.capitalize()
+
+        if commit:
+            object.save()
+
+        return object
+
 
     class Meta:
         model = CelestialObject

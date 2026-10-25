@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load astro_filters %}
+
 
 {% block title %}Observations | AstroJournal{% endblock %}
 
@@ -48,10 +50,10 @@
                 <h2>{{ entry.celestial_object.name }}</h2>
 
                 {% if entry.location %}
-                    <p class="muted">⌖ {{ entry.location }}</p>
+                    <p class="muted">⌖ {{ entry.location|lower_cap_case }}</p>
                 {% endif %}
 
-                <p>{{ entry.notes|default:"No notes for this observation."|truncatechars:160 }}</p>
+                <p>{{ entry.notes|lower_cap_case|default:"No notes for this observation."|truncatechars:160 }}</p>
                 <a class="text-link"
                    href="{% url 'observations:details' entry.pk %}">
                     Read entry →

@@ -40,22 +40,28 @@
         {% endfor %}
 
 
-    {% if form.instance.pk and form.instance.images.all %}
-        <p>Existing photos</p>
+{% if form.instance.pk and form.instance.images.all %}
+    <p>Existing photos — select any to remove</p>
 
-        <div class="observation-gallery">
-            {% for photo in form.instance.images.all %}
+    <div class="observation-gallery">
+        {% for photo in form.instance.images.all %}
+            <div>
                 <a href="{{ photo.image.url }}" target="_blank">
-                    <img
-                        src="{{ photo.image.url }}"
-                        alt="Existing observation photo"
-                        class="observation-photo"
-                    >
+                    <img src="{{ photo.image.url }}"
+                         alt="Existing observation photo"
+                         class="observation-photo">
                 </a>
-            {% endfor %}
-        </div>
-    {% endif %}
 
+                <label>
+                    <input type="checkbox"
+                           name="delete_images"
+                           value="{{ photo.pk }}">
+                    Remove
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
         <div class="photo-upload-section">
             <p>

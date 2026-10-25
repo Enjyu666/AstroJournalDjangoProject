@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load astro_filters %}
 
 {% block title %}Observation | AstroJournal{% endblock %}
 
@@ -20,7 +21,7 @@
         <dd>{{ observation.celestial_object.get_object_type_display }}</dd>
 
         <dt>Location</dt>
-        <dd>{{ observation.location|default:"Not specified" }}</dd>
+        <dd>{{ observation.location|lower_cap_case|default:"Not specified" }}</dd>
 
         <dt>Equipment used</dt>
         <dd>
@@ -51,7 +52,7 @@
 
 
         <dt>Notes</dt>
-        <dd>{{ observation.notes|default:"No notes added."|linebreaksbr }}</dd>
+        <dd>{{ observation.notes|lower_cap_case|default:"No notes added."|linebreaksbr }}</dd>
 
         <dt>Entry created</dt>
         <dd>{{ observation.created_at|date:"d F Y, H:i" }}</dd>

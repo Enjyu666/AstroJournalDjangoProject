@@ -56,6 +56,15 @@ def observation_edit(request, pk):
     if form.is_valid():
         form.save()
 
+        for img_pk in request.POST.getlist('delete_images'):
+            photo = get_object_or_404(
+                ObservationImage,
+                pk=img_pk,
+                observation=observation
+            )
+            photo.image.delete(save=False)
+            photo.delete()
+
         for img in request.FILES.getlist('images'):
             ObservationImage.objects.create(observation=observation, image=img)
 
