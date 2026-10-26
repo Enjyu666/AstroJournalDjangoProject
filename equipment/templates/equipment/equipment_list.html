@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load astro_filters %}
+{% load static %}
 
 
 {% block title %}Equipment | AstroJournal{% endblock %}
@@ -15,21 +16,37 @@
        href="{% url 'equipment:create' %}">+ Add equipment</a>
 </section>
 
+        <form method="get" class="filter-bar" action="{% url 'equipment:filter' %}">
+            <label for="type">Filter gear by type:</label>
+
+            <select name="type" id="type">
+                <option value="">All gear</option>
+                <option value="Telescope">Telescopes</option>
+                <option value="Binoculars">Binoculars</option>
+                <option value="Camera">Cameras</option>
+                <option value="Smartphone">Smartphones</option>
+            </select>
+
+            <button type="submit" class="button button-primary">Filter</button>
+        </form>
+
 <div class="card-grid">
     {% for item in equipment %}
-        <article class="card">
-            <span class="type-label">{{ item.get_equipment_type_display }}</span>
-            <h2>{{ item.name|lower_cap_case }}</h2>
-            {% if item.brand %}
-                <p class="muted">Brand: {{ item.brand|lower_cap_case }}</p>
-            {% endif %}
-            {% if item.equipment_specs %}
-                <p>{{ item.equipment_specs|lower_cap_case }}</p>
-            {% endif %}
-            <a class="text-link"
-               href="{% url 'equipment:details' item.pk %}">
-                View equipment →
-            </a>
+        <article class="card object-card">
+            <img src="{% static 'images/telescope-placeholder.png' %}"
+                 alt="Telescope"
+                 class="object-card-image">
+
+            <div class="object-card-content">
+                <span class="type-label">{{ item.get_equipment_type_display }}</span>
+                <h2>{{ item.name|lower_cap_case|truncatechars:30 }}</h2>
+                    <p class="muted">Brand: {{ item.brand|lower_cap_case|truncatechars:30|default:"Not specified." }}</p>
+
+                <a class="text-link"
+                   href="{% url 'equipment:details' item.pk %}">
+                    View equipment →
+                </a>
+            </div>
         </article>
     {% empty %}
         <div class="empty-state">

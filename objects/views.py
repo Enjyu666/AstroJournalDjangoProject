@@ -70,9 +70,20 @@ def object_delete(request, pk):
 
 
 
+def filter_object_by_type(request):
+    object_type = request.GET.get('type')
 
+    if object_type:
+        objects = CelestialObject.objects.filter(object_type=object_type).order_by('name')
+    else:
+        objects = CelestialObject.objects.all().order_by('name')
 
+    context = {
+        'objects': objects,
+        'selected_type': object_type
+    }
 
+    return render(request, 'objects/object_list.html', context)
 
 
 

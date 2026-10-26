@@ -15,6 +15,25 @@
        href="{% url 'observations:create' %}">+ Log observation</a>
 </section>
 
+    <form method="get" class="filter-bar" action="{% url 'observations:filter' %}">
+        <label for="type">Filter log by celestial object:</label>
+
+        <select name="object" id="object">
+            <option value="">All celestial objects</option>
+
+            {% for obj in objects %}
+                <option value="{{ obj.pk }}"
+                    {% if selected_object == obj.pk|stringformat:"s" %}
+                        selected
+                    {% endif %}>
+                    {{ obj.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="button button-primary">Filter</button>
+    </form>
+
 <div class="observation-list">
     {% for entry in observations %}
         <article class="card observation-card">
@@ -47,13 +66,13 @@
                 <span class="type-label">
                     {{ entry.celestial_object.get_object_type_display }}
                 </span>
-                <h2>{{ entry.celestial_object.name }}</h2>
+                <h2>{{ entry.celestial_object.name|truncatechars:30  }}</h2>
 
                 {% if entry.location %}
-                    <p class="muted">⌖ {{ entry.location|lower_cap_case }}</p>
+                    <p class="muted">⌖ {{ entry.location|lower_cap_case|truncatechars:30  }}</p>
                 {% endif %}
 
-                <p>{{ entry.notes|lower_cap_case|default:"No notes for this observation."|truncatechars:160 }}</p>
+                <p>{{ entry.notes|lower_cap_case|truncatechars:30 |default:"No notes for this observation."}}</p>
                 <a class="text-link"
                    href="{% url 'observations:details' entry.pk %}">
                     Read entry →

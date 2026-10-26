@@ -15,6 +15,23 @@
        href="{% url 'objects:create' %}">+ Add object</a>
 </section>
 
+        <form method="get" class="filter-bar" action="{% url 'objects:filter' %}">
+            <label for="type">Filter objects by type:</label>
+
+            <select name="type" id="type">
+                <option value="">All objects</option>
+                <option value="Planet">Planets</option>
+                <option value="Star">Stars</option>
+                <option value="Constellation">Constellations</option>
+                <option value="Satellite">Satellites</option>
+                <option value="Cluster">Clusters</option>
+                <option value="Nebula">Nebulae</option>
+                <option value="Comet">Comets</option>
+                <option value="Galaxy">Galaxies</option>
+            </select>
+
+            <button type="submit" class="button button-primary">Filter</button>
+        </form>
 
     <div class="card-grid">
     {% for obj in objects %}
@@ -38,10 +55,10 @@
                     {{ obj.get_object_type_display }}
                 </span>
 
-                <h2>{{ obj.name|lower_cap_case }}</h2>
+                <h2>{{ obj.name|lower_cap_case|truncatechars:30 }}</h2>
 
                 <p>
-                    {{ obj.description|lower_cap_case|default:"No description added yet." }}
+                    {{ obj.description|lower_cap_case|truncatechars:30|default:"No description added yet." }}
                 </p>
 
                 <a class="text-link"

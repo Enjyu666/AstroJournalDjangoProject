@@ -5,6 +5,8 @@ app_name = 'observations'
 
 urlpatterns = [
     path('', views.observation_list, name='observation_list'),
+    path('gallery/', views.gallery, name='gallery'),
+    path('filter/', views.filter_observations_by_object, name='filter'),
     path('create/', include([
         path('', views.observation_create, name='create'),
         path('from-object/<int:pk>/', views.observation_create, name='create_from_object')
@@ -14,5 +16,4 @@ urlpatterns = [
         path('edit/', views.observation_edit, name='edit'),
         path('delete/', views.observation_delete, name='delete')
     ])),
-    path('gallery/', views.gallery, name='gallery'),
 ]

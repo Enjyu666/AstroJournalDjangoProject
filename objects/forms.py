@@ -19,12 +19,6 @@ class BaseObjectForm(forms.ModelForm):
     class Meta:
         model = CelestialObject
         fields = '__all__'
-
-
-
-class CreateObjectForm(BaseObjectForm):
-
-    class Meta(BaseObjectForm.Meta):
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'e.g. Andromeda'
@@ -42,6 +36,11 @@ class CreateObjectForm(BaseObjectForm):
                 'required': 'Please select an object type.',
             },
         }
+
+
+
+class CreateObjectForm(BaseObjectForm):
+    ...
 
 
 class EditObjectForm(BaseObjectForm):

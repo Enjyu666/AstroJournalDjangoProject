@@ -7,9 +7,11 @@ from observations.models import ObservationLog, ObservationImage
 
 def observation_list(request):
     observations = ObservationLog.objects.all().order_by('-date_observed')
+    objects = CelestialObject.objects.order_by('name')
 
     context = {
         'observations': observations,
+        'objects': objects
     }
 
     return render(request, 'observations/observation_list.html', context)
@@ -106,7 +108,23 @@ def gallery(request):
     return render(request, 'observations/gallery.html', context)
 
 
+def filter_observations_by_object(request):
+    object = request.GET.get('object')
 
+    if object:
+        observations = ObservationLog.objects.filter(celestial_object_id=object).order_by('-date_observed')
+    else:
+        observations = ObservationLog.objects.all().order_by('-date_observed')
+
+    objects = CelestialObject.objects.order_by('name')
+
+    context = {
+        'observations': observations,
+        'objects': objects,
+        'selected_object': object
+    }
+
+    return render(request, 'observations/observation_list.html', context)
 
 
 

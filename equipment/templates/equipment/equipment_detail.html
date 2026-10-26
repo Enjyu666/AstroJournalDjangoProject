@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load astro_filters %}
+{% load static %}
 
 
 {% block title %}{{ equipment.name }} | AstroJournal{% endblock %}
@@ -12,6 +13,10 @@
 <section class="detail-panel">
     <span class="type-label">{{ equipment.get_equipment_type_display }}</span>
     <h1>{{ equipment.name|lower_cap_case }}</h1>
+
+    <img src="{% static 'images/telescope-placeholder.png' %}"
+         alt="Telescope"
+         class="equipment-profile-image">
 
     <dl class="detail-list">
         <dt>Brand</dt>

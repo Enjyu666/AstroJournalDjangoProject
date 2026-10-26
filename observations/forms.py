@@ -10,22 +10,6 @@ class BaseObservationForm(forms.ModelForm):
         model = ObservationLog
         fields = '__all__'
         widgets = {
-            'rating': forms.RadioSelect(choices=[
-                ('5', '5 stars'),
-                ('4', '4 stars'),
-                ('3', '3 stars'),
-                ('2', '2 stars'),
-                ('1', '1 star')
-            ]),
-
-        }
-
-
-
-class CreateObservationForm(BaseObservationForm):
-
-    class Meta(BaseObservationForm.Meta):
-        widgets = {
             'date_observed': forms.DateTimeInput(
                 format='%Y-%m-%dT%H:%M',
                 attrs={
@@ -40,11 +24,11 @@ class CreateObservationForm(BaseObservationForm):
                 'placeholder': 'e.g. Clear sky, good visibility',
             }),
             'rating': forms.RadioSelect(choices=[
-                ('5', '5 stars'),
-                ('4', '4 stars'),
-                ('3', '3 stars'),
-                ('2', '2 stars'),
-                ('1', '1 star')
+                (5, '5 stars'),
+                (4, '4 stars'),
+                (3, '3 stars'),
+                (2, '2 stars'),
+                (1, '1 star')
             ]),
 
         }
@@ -65,6 +49,11 @@ class CreateObservationForm(BaseObservationForm):
                 'required': 'Please select equipment.'
             }
         }
+
+
+
+class CreateObservationForm(BaseObservationForm):
+    ...
 
 
 class EditObservationForm(BaseObservationForm):

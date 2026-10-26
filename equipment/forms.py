@@ -18,11 +18,6 @@ class BaseEquipmentForm(forms.ModelForm):
     class Meta:
         model = Equipment
         fields = '__all__'
-
-
-class CreateEquipmentForm(BaseEquipmentForm):
-
-    class Meta(BaseEquipmentForm.Meta):
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'e.g. My first telescope'
@@ -45,6 +40,10 @@ class CreateEquipmentForm(BaseEquipmentForm):
                 'required': 'Please select equipment type.',
             }
         }
+
+
+class CreateEquipmentForm(BaseEquipmentForm):
+    ...
 
 
 class EditEquipmentForm(BaseEquipmentForm):

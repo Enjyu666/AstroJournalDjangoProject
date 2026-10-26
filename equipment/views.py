@@ -70,7 +70,20 @@ def equipment_delete(request, pk):
 
 
 
+def filter_equipment_by_type(request):
+    equipment_type = request.GET.get('type')
 
+    if equipment_type:
+        equipment = Equipment.objects.filter(equipment_type=equipment_type).order_by('equipment_type')
+    else:
+        equipment = Equipment.objects.all().order_by('equipment_type')
+
+    context = {
+        'equipment': equipment,
+        'selected_type': equipment_type
+    }
+
+    return render(request, 'equipment/equipment_list.html', context)
 
 
 

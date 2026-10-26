@@ -1,3 +1,7 @@
 .idea/
+.venv/
 __pycache__/
-*.pyc
+*.py[cod]
+media/
+.env
+todo
