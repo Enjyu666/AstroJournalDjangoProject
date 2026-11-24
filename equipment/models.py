@@ -1,5 +1,8 @@
 from django.db import models
 
+from accounts.models import CustomUser
+
+
 class Equipment(models.Model):
 
     class EquipmentTypeChoice(models.TextChoices):
@@ -25,6 +28,7 @@ class Equipment(models.Model):
         max_length=100,
         blank=True
     )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='equipment')
 
     def __str__(self):
         return self.name

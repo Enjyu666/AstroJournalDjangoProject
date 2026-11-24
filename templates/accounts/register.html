@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Account | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <span class="eyebrow">JOIN ASTROJOURNAL</span>
+    <h1>Create your account</h1>
+    <p class="muted">
+        Start keeping track of your observations and exploring the night sky.
+    </p>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button type="submit" class="button button-primary">
+                Create account
+            </button>
+        </div>
+    </form>
+
+    <p class="muted">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-link">Log in</a>
+    </p>
+</section>
+{% endblock %}

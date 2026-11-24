@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ profile.user.username }}'s Profile | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <span class="eyebrow">ASTROJOURNAL MEMBER</span>
+
+    <h1>{{ profile.user.username }}</h1>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}"
+             alt="{{ profile.user.username }}'s profile picture"
+             class="profile-picture">
+    {% endif %}
+
+    {% if profile.user.first_name or profile.user.last_name %}
+        <p>{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+    {% endif %}
+
+    {% if profile.location %}
+        <p><strong>Location:</strong> {{ profile.location }}</p>
+    {% endif %}
+
+    {% if profile.bio %}
+        <h3>About</h3>
+        <p>{{ profile.bio }}</p>
+    {% else %}
+        <p class="muted">No biography has been added yet.</p>
+    {% endif %}
+
+    {% if request.user == profile.user %}
+        <div class="action-row">
+            <a href="{% url 'edit_profile' %}" class="button button-primary">
+                Edit profile
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

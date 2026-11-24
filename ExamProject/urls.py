@@ -25,7 +25,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('objects/', include('objects.urls')),
     path('equipment/', include('equipment.urls')),
-    path('observations/', include('observations.urls'))
+    path('observations/', include('observations.urls')),
+    path('accounts/', include('accounts.urls'))
 ]
 
 if settings.DEBUG:

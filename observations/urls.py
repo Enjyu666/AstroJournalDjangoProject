@@ -4,16 +4,16 @@ from observations import views
 app_name = 'observations'
 
 urlpatterns = [
-    path('', views.observation_list, name='observation_list'),
+    path('', views.ObservationListView.as_view(), name='observation_list'),
     path('gallery/', views.gallery, name='gallery'),
     path('filter/', views.filter_observations_by_object, name='filter'),
     path('create/', include([
-        path('', views.observation_create, name='create'),
-        path('from-object/<int:pk>/', views.observation_create, name='create_from_object')
+        path('', views.ObservationCreateView.as_view(), name='create'),
+        path('from-object/<int:pk>/', views.ObservationCreateView.as_view(), name='create_from_object')
     ])),
     path('details/<int:pk>/', include([
-        path('', views.observation_detail, name='details'),
-        path('edit/', views.observation_edit, name='edit'),
-        path('delete/', views.observation_delete, name='delete')
+        path('', views.ObservationDetailView.as_view(), name='details'),
+        path('edit/', views.ObservationEditView.as_view(), name='edit'),
+        path('delete/', views.ObservationDeleteView.as_view(), name='delete')
     ])),
 ]

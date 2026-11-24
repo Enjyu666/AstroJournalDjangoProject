@@ -8,7 +8,8 @@ class BaseObservationForm(forms.ModelForm):
 
     class Meta:
         model = ObservationLog
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['user']
         widgets = {
             'date_observed': forms.DateTimeInput(
                 format='%Y-%m-%dT%H:%M',

@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from objects.models import CelestialObject
+
+
+@admin.register(CelestialObject)
+class CelestialObjectAdmin(admin.ModelAdmin):
+    ...
+

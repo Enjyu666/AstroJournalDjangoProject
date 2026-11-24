@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 from pathlib import Path
 import os
 
+from django.conf.global_settings import LOGIN_REDIRECT_URL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +41,8 @@ PROJECT_APPS = [
     'objects',
     'equipment',
     'observations',
+    'accounts.apps.AccountsConfig',
+    'planner',
 ]
 
 INSTALLED_APPS = [
@@ -98,7 +102,7 @@ WSGI_APPLICATION = 'ExamProject.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "astro_journal"),
+        "NAME": os.environ.get("DB_NAME", "astro_journal_advanced"),
         "USER": os.environ.get("DB_USER", "postgres"),
         "PASSWORD": os.environ.get("DB_PASSWORD", "postgres"),
         "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
@@ -161,3 +165,11 @@ MAILERS = {
 CSRF_TRUSTED_ORIGINS = [
     'https://grumble-overbuilt-exclusion.ngrok-free.dev'
 ]
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'

@@ -4,12 +4,12 @@ from objects import views
 app_name = 'objects'
 
 urlpatterns = [
-    path('', views.object_list, name='object_list'),
-    path('create/' , views.object_create, name='create'),
+    path('', views.ObjectListView.as_view(), name='object_list'),
+    path('create/' , views.ObjectCreateView.as_view(), name='create'),
     path('filter/', views.filter_object_by_type, name='filter'),
     path('details/<int:pk>/', include([
-        path('', views.object_detail, name='details'),
-        path('edit/', views.object_edit, name='edit'),
-        path('delete/', views.object_delete, name='delete')
+        path('', views.ObjectDetailView.as_view(), name='details'),
+        path('edit/', views.ObjectEditView.as_view(), name='edit'),
+        path('delete/', views.ObjectDeleteView.as_view(), name='delete')
     ]))
 ]

@@ -17,7 +17,8 @@ class BaseEquipmentForm(forms.ModelForm):
 
     class Meta:
         model = Equipment
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['user']
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'e.g. My first telescope'

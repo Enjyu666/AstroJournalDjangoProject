@@ -1,12 +1,13 @@
 from django.db import models
 
+from accounts.models import CustomUser
 from equipment.models import Equipment
 from objects.models import CelestialObject
 from observations.validators import validate_not_future
 
 
 class ObservationLog(models.Model):
-    celestial_object = models.ForeignKey(CelestialObject, on_delete=models.CASCADE)
+    celestial_object = models.ForeignKey(CelestialObject, on_delete=models.PROTECT)
     date_observed = models.DateTimeField(
         validators=[
             validate_not_future
@@ -26,6 +27,7 @@ class ObservationLog(models.Model):
         blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='observations')
 
     def __str__(self):
         return self.celestial_object.name

@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <span class="eyebrow">YOUR ACCOUNT</span>
+    <h1>Edit profile</h1>
+    <p class="muted">
+        Update your profile information and visibility settings.
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button type="submit" class="button button-primary">
+                Save changes
+            </button>
+            <a href="{% url 'profile' username=request.user.username %}"
+               class="button button-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

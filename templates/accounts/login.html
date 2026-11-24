@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Log In | AstroJournal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <span class="eyebrow">WELCOME BACK</span>
+    <h1>Log in</h1>
+    <p class="muted">
+        Continue your journey exploring the night sky.
+    </p>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+
+        <div class="action-row">
+            <button type="submit" class="button button-primary">
+                Log in
+            </button>
+        </div>
+    </form>
+
+    <p class="muted">
+        Don't have an account?
+        <a href="{% url 'register' %}" class="text-link">Create one</a>
+    </p>
+</section>
+{% endblock %}

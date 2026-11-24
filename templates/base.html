@@ -20,6 +20,20 @@
                 <a href="{% url 'equipment:equipment_list' %}">Equipment</a>
                 <a href="{% url 'observations:observation_list' %}">Observations</a>
                 <a href="{% url 'observations:gallery' %}">Gallery</a>
+
+                {% if user.is_authenticated %}
+{#                    <span>{{ user.username }}</span>#}
+                    <a href="{% url 'profile' username=user.username %}">
+                        {{ user.username }}
+                    </a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="button button-secondary">Log out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Log in</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
             </div>
         </nav>
     </header>
