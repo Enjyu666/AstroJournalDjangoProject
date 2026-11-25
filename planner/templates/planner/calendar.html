@@ -1,0 +1,137 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="calendar-container">
+
+    <div class="calendar-header">
+        <a href="?month={{ previous_month }}&year={{ previous_year }}" class="calendar-nav">
+            &lt; Previous
+        </a>
+
+        <h2>{{ month_name }} {{ current_year }}</h2>
+
+        <a href="?month={{ next_month }}&year={{ next_year }}" class="calendar-nav">
+            Next &gt;
+        </a>
+    </div>
+
+    <div class="calendar-grid">
+
+        {% for day_name in weekdays %}
+            <div class="calendar-weekday">{{ day_name }}</div>
+        {% endfor %}
+
+        {% for week in month_calendar %}
+            {% for day in week %}
+
+                {% if day == 0 %}
+                    <div class="calendar-day empty-day"></div>
+                {% else %}
+                    <div class="calendar-day">
+
+                        <span class="calendar-date">{{ day }}</span>
+
+                        <div class="calendar-targets">
+                            {% for target in targets %}
+                                {% if target.scheduled_date.day == day %}
+                                    <div class="calendar-target">
+                                        {{ target.celestial_object.name }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Open daily schedule -->
+                        <button type="button"
+                                class="day-open-button"
+                                popovertarget="day-{{ day }}">
+                        </button>
+
+                        <!-- Direct add button -->
+                        <button type="button"
+                                class="add-target-button"
+                                popovertarget="add-{{ day }}">
+                            +
+                        </button>
+
+                        <!-- Daily schedule popup -->
+                        <div id="day-{{ day }}" popover="auto" class="day-popup">
+
+                            <button type="button"
+                                    popovertarget="day-{{ day }}"
+                                    popovertargetaction="hide"
+                                    class="popup-close">
+                                &times;
+                            </button>
+
+                            <h3>{{ day }} {{ month_name }} {{ current_year }}</h3>
+                            <h4>Planned targets</h4>
+
+                            {% for target in targets %}
+                                {% if target.scheduled_date.day == day %}
+                                    <p>{{ target.celestial_object.name }}</p>
+                                {% endif %}
+                            {% endfor %}
+
+                            <button type="button"
+                                    popovertarget="add-{{ day }}"
+                                    class="button button-primary add-target-link">
+                                + Add target
+                            </button>
+
+                        </div>
+
+                        <!-- Add target popup -->
+                        <div id="add-{{ day }}" popover="auto" class="day-popup">
+
+                            <button type="button"
+                                    popovertarget="add-{{ day }}"
+                                    popovertargetaction="hide"
+                                    class="popup-close">
+                                &times;
+                            </button>
+
+                            <h3>Schedule an Observation</h3>
+                            <p>{{ day }} {{ month_name }} {{ current_year }}</p>
+
+                            <form method="post"
+                                  action="{% url 'planner:create_target' current_year current_month day %}">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="id_celestial_object_{{ day }}">Celestial Object</label>
+                                    <select name="celestial_object"
+                                            id="id_celestial_object_{{ day }}"
+                                            required>
+                                        {% for object in celestial_objects %}
+                                            <option value="{{ object.pk }}">
+                                                {{ object.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="id_notes_{{ day }}">Notes</label>
+                                    <textarea name="notes"
+                                              id="id_notes_{{ day }}"></textarea>
+                                </div>
+
+                                <button type="submit" class="button button-primary">
+                                    Add to Planner
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -16,11 +17,14 @@ from equipment.models import Equipment
 #
 #     return render(request, 'equipment/equipment_list.html', context)
 
-class EquipmentListView(ListView):
+class EquipmentListView(LoginRequiredMixin, ListView):
     model = Equipment
     template_name = 'equipment/equipment_list.html'
     context_object_name = 'equipment'
-    queryset = Equipment.objects.all().order_by('equipment_type')
+
+
+    def get_queryset(self):
+        return Equipment.objects.filter(user=self.request.user).order_by('equipment_type')
 #
 #
 # def equipment_create(request):
@@ -36,11 +40,11 @@ class EquipmentListView(ListView):
 #
 #     return render(request, 'equipment/equipment_form.html', context)
 
-class EquipmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class EquipmentCreateView(LoginRequiredMixin, CreateView):
     model = Equipment
     form_class = CreateEquipmentForm
     template_name = 'equipment/equipment_form.html'
-    permission_required = 'equipment.add_equipment'
+    # permission_required = 'equipment.add_equipment'
     success_url = reverse_lazy('equipment:equipment_list')
 
     def form_valid(self, form):
@@ -59,11 +63,14 @@ class EquipmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 #
 #     return render(request, 'equipment/equipment_detail.html', context)
 
-class EquipmentDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class EquipmentDetailView(LoginRequiredMixin, DetailView):
     model = Equipment
     template_name = 'equipment/equipment_detail.html'
     context_object_name = 'equipment'
-    permission_required = 'equipment.view_equipment'
+    # permission_required = 'equipment.view_equipment'
+
+    def get_queryset(self):
+        return Equipment.objects.filter(user=self.request.user)
 
 
 # def equipment_edit(request, pk):
@@ -80,12 +87,15 @@ class EquipmentDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
 #
 #     return render(request, 'equipment/equipment_form.html', context)
 
-class EquipmentEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class EquipmentEditView(LoginRequiredMixin, UpdateView):
     model = Equipment
     form_class = EditEquipmentForm
     template_name = 'equipment/equipment_form.html'
-    permission_required = 'equipment.change_equipment'
+    # permission_required = 'equipment.change_equipment'
     success_url = reverse_lazy('equipment:equipment_list')
+
+    def get_queryset(self):
+        return Equipment.objects.filter(user=self.request.user)
 
 
 # def equipment_delete(request, pk):
@@ -103,22 +113,27 @@ class EquipmentEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 #
 #     return render(request, 'equipment/equipment_confirm_delete.html', context)
 
-class EquipmentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class EquipmentDeleteView(LoginRequiredMixin, DeleteView):
     model = Equipment
     template_name = 'equipment/equipment_confirm_delete.html'
     context_object_name = 'equipment'
-    permission_required = 'equipment.delete_equipment'
+    # permission_required = 'equipment.delete_equipment'
     success_url = reverse_lazy('equipment:equipment_list')
 
+    def get_queryset(self):
+        return Equipment.objects.filter(user=self.request.user)
 
 
+@login_required
 def filter_equipment_by_type(request):
     equipment_type = request.GET.get('type')
 
     if equipment_type:
-        equipment = Equipment.objects.filter(equipment_type=equipment_type).order_by('equipment_type')
+        equipment = Equipment.objects.filter(
+            user=request.user,
+            equipment_type=equipment_type).order_by('equipment_type')
     else:
-        equipment = Equipment.objects.all().order_by('equipment_type')
+        equipment = Equipment.objects.filter(user=request.user).order_by('equipment_type')
 
     context = {
         'equipment': equipment,

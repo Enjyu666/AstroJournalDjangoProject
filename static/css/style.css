@@ -466,3 +466,305 @@ input:focus, select:focus, textarea:focus {
     margin: 16px 0;
     /*border: 2px solid var(--accent-color);*/
 }
+
+
+/* ---------- Observation Planner ---------- */
+
+.calendar-container {
+    width: 100%;
+    margin: 30px auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.calendar-header h2 {
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 15px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--accent);
+    font-weight: 700;
+    transition: background 0.2s;
+}
+
+.calendar-nav:hover {
+    background: var(--surface-light);
+    color: var(--text);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 7px;
+}
+
+.calendar-weekday {
+    padding: 12px 5px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.calendar-day {
+    position: relative;
+    min-height: 120px;
+    padding: 10px;
+    overflow-wrap: anywhere;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: linear-gradient(145deg, var(--surface-light), var(--surface));
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.calendar-day:hover {
+    border-color: #5279a6;
+    background: #203653;
+}
+
+.empty-day {
+    border: none;
+    background: transparent;
+}
+
+.empty-day:hover {
+    border: none;
+    background: transparent;
+}
+
+.calendar-date {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.calendar-targets {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.calendar-target {
+    padding: 4px 7px;
+    border: 1px solid #385679;
+    border-radius: 6px;
+    background: #203b5d;
+    color: #c5ddff;
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Clickable Calendar Squares ---------- */
+
+.day-open-button {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* ---------- Add Target Button ---------- */
+
+.add-target-button {
+    position: absolute;
+    right: 9px;
+    bottom: 9px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid #5279a6;
+    border-radius: 50%;
+    background: var(--accent-dark);
+    color: var(--text);
+    font-size: 21px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.add-target-button:hover {
+    background: #315b88;
+    transform: scale(1.08);
+}
+
+/* ---------- Planner Popups ---------- */
+
+.day-popup {
+    position: fixed;
+    inset: 0;
+    width: 380px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, var(--surface-light), var(--surface));
+    color: var(--text);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.55);
+    font-family: inherit;
+}
+
+.day-popup::backdrop {
+    background: rgba(3, 10, 22, 0.78);
+    backdrop-filter: blur(3px);
+}
+
+.day-popup h3 {
+    margin: 0 30px 12px 0;
+    color: var(--text);
+}
+
+.day-popup h4 {
+    margin: 22px 0 12px;
+    color: var(--accent);
+}
+
+.day-popup p {
+    margin: 10px 0;
+    color: var(--muted);
+}
+
+/* ---------- Popup Close Button ---------- */
+
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.popup-close:hover {
+    background: var(--surface-light);
+    color: var(--text);
+}
+
+/* ---------- Popup Forms ---------- */
+
+.day-popup .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 18px 0;
+}
+
+.day-popup label {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.day-popup select,
+.day-popup textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #3a506c;
+    border-radius: 8px;
+    background: #0b192d;
+    color: var(--text);
+    font: inherit;
+}
+
+.day-popup textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.day-popup select:focus,
+.day-popup textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Use the existing AstroJournal button styles */
+
+.day-popup .button {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.day-popup .add-target-link {
+    display: inline-flex;
+    width: auto;
+    margin-top: 15px;
+}
+
+/* ---------- Responsive Planner ---------- */
+
+@media (max-width: 700px) {
+    .calendar-grid {
+        gap: 3px;
+    }
+
+    .calendar-day {
+        min-height: 85px;
+        padding: 5px;
+    }
+
+    .calendar-weekday {
+        padding: 7px 2px;
+        font-size: 0.75rem;
+    }
+
+    .calendar-date {
+        margin-bottom: 5px;
+        font-size: 0.85rem;
+    }
+
+    .calendar-target {
+        padding: 3px;
+        font-size: 0.7rem;
+    }
+
+    .add-target-button {
+        right: 4px;
+        bottom: 4px;
+        width: 24px;
+        height: 24px;
+        font-size: 17px;
+    }
+
+    .calendar-header h2 {
+        font-size: 1.15rem;
+    }
+
+    .calendar-nav {
+        padding: 7px 9px;
+        font-size: 0.8rem;
+    }
+}

@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from planner.models import ObservationPlan, ObservationTarget
+from planner.models import ObservationTarget
 
-
-@admin.register(ObservationPlan)
-class ObservationPlanAdmin(admin.ModelAdmin):
-    ...
+#
+# @admin.register(ObservationPlan)
+# class ObservationPlanAdmin(admin.ModelAdmin):
+#     ...
 
 
 @admin.register(ObservationTarget)
