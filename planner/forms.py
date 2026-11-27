@@ -7,11 +7,13 @@ class BaseObservationTargetForm(forms.ModelForm):
 
     class Meta:
         model = ObservationTarget
-        exclude = ['user', 'scheduled_date']
+        exclude = ['user']
 
 
 class CreateObservationTargetForm(BaseObservationTargetForm):
-    ...
+
+    class Meta(BaseObservationTargetForm.Meta):
+        exclude = ['user', 'scheduled_date']
 
 
 class EditObservationTargetForm(BaseObservationTargetForm):

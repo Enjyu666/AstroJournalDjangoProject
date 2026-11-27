@@ -1,0 +1,32 @@
+```html
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+
+    <h2>Delete Observation Target</h2>
+
+    <p>
+        Are you sure you want to delete your planned observation of
+        <strong>{{ target.celestial_object.name }}</strong>
+        scheduled for {{ target.scheduled_date }}?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-buttons">
+            <button type="submit" class="button button-primary">
+                Yes, Delete
+            </button>
+
+            <a href="{% url 'planner:calendar' %}?month={{ target.scheduled_date.month }}&year={{ target.scheduled_date.year }}"
+               class="button button-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+```

@@ -1,6 +1,6 @@
+
 {% extends "base.html" %}
 {% load astro_filters %}
-
 
 {% block title %}Observations | AstroJournal{% endblock %}
 
@@ -15,24 +15,40 @@
        href="{% url 'observations:create' %}">+ Log observation</a>
 </section>
 
-    <form method="get" class="filter-bar" action="{% url 'observations:filter' %}">
-        <label for="type">Filter log by celestial object:</label>
+<form method="get" class="filter-bar" action="{% url 'observations:filter' %}">
 
-        <select name="object" id="object">
-            <option value="">All celestial objects</option>
+    <label for="type">Object type:</label>
+    <select name="type" id="type">
+        <option value="">All types</option>
+        {% for value, label in object_types %}
+            <option value="{{ value }}"
+                {% if selected_type == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
 
-            {% for obj in objects %}
-                <option value="{{ obj.pk }}"
-                    {% if selected_object == obj.pk|stringformat:"s" %}
-                        selected
-                    {% endif %}>
-                    {{ obj.name }}
-                </option>
-            {% endfor %}
-        </select>
+    <label for="object">Object name:</label>
+    <select name="object" id="object">
+        <option value="">All observed objects</option>
+        {% for obj in objects %}
+            <option value="{{ obj.pk }}"
+                {% if selected_object == obj.pk|stringformat:"s" %}selected{% endif %}>
+                {{ obj.name }}
+            </option>
+        {% endfor %}
+    </select>
 
-        <button type="submit" class="button button-primary">Filter</button>
-    </form>
+    <button type="submit" class="button button-primary">Filter</button>
+
+    {% if selected_type or selected_object %}
+        <a href="{% url 'observations:observation_list' %}"
+           class="button button-secondary">
+            Clear filters
+        </a>
+    {% endif %}
+
+</form>
 
 <div class="observation-list">
     {% for entry in observations %}
@@ -41,7 +57,6 @@
                 <span class="date-label">OBSERVED</span>
                 <strong>{{ entry.date_observed|date:"d M Y" }}</strong>
                 <span class="muted">{{ entry.date_observed|date:"H:i" }}</span>
-
 
                 <div class="observation-rating">
                     {% if entry.rating %}
@@ -58,21 +73,20 @@
                         <span class="rating-number">Not rated</span>
                     {% endif %}
                 </div>
-
-
             </div>
 
             <div class="observation-content">
                 <span class="type-label">
                     {{ entry.celestial_object.get_object_type_display }}
                 </span>
-                <h2>{{ entry.celestial_object.name|truncatechars:30  }}</h2>
+                <h2>{{ entry.celestial_object.name|truncatechars:30 }}</h2>
 
                 {% if entry.location %}
-                    <p class="muted">⌖ {{ entry.location|lower_cap_case|truncatechars:30  }}</p>
+                    <p class="muted">⌖ {{ entry.location|lower_cap_case|truncatechars:30 }}</p>
                 {% endif %}
 
-                <p>{{ entry.notes|lower_cap_case|truncatechars:30 |default:"No notes for this observation."}}</p>
+                <p>{{ entry.notes|lower_cap_case|truncatechars:30|default:"No notes for this observation." }}</p>
+
                 <a class="text-link"
                    href="{% url 'observations:details' entry.pk %}">
                     Read entry →

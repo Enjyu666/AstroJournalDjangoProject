@@ -5,35 +5,52 @@
 {% block title %}Celestial Objects | AstroJournal{% endblock %}
 
 {% block content %}
+
 <section class="page-heading">
     <div>
         <span class="eyebrow">EXPLORE THE UNIVERSE</span>
-        <h1>My celestial objects</h1>
-        <p>Your personal catalogue of the night sky.</p>
+        <h1>Celestial Objects</h1>
+        <p>Discover planets, stars, galaxies and other wonders of the night sky.</p>
     </div>
-    <a class="button button-primary"
-       href="{% url 'objects:create' %}">+ Add object</a>
+
+    {% if perms.objects.add_celestialobject %}
+        <a class="button button-primary"
+           href="{% url 'objects:create' %}">
+            + Add object
+        </a>
+    {% endif %}
 </section>
 
-        <form method="get" class="filter-bar" action="{% url 'objects:filter' %}">
-            <label for="type">Filter objects by type:</label>
+<form method="get" class="filter-bar" action="{% url 'objects:object_list' %}">
 
-            <select name="type" id="type">
-                <option value="">All objects</option>
-                <option value="Planet">Planets</option>
-                <option value="Star">Stars</option>
-                <option value="Constellation">Constellations</option>
-                <option value="Satellite">Satellites</option>
-                <option value="Cluster">Clusters</option>
-                <option value="Nebula">Nebulae</option>
-                <option value="Comet">Comets</option>
-                <option value="Galaxy">Galaxies</option>
-            </select>
+    <label for="search">Search the catalogue:</label>
+    <input type="text"
+           name="q"
+           id="search"
+           placeholder="Search by object name..."
+           value="{{ request.GET.q|default:'' }}">
 
-            <button type="submit" class="button button-primary">Filter</button>
-        </form>
+    <label for="type">Object type:</label>
+    <select name="type" id="type">
+        <option value="">All objects</option>
+        <option value="Planet" {% if request.GET.type == 'Planet' %}selected{% endif %}>Planets</option>
+        <option value="Star" {% if request.GET.type == 'Star' %}selected{% endif %}>Stars</option>
+        <option value="Constellation" {% if request.GET.type == 'Constellation' %}selected{% endif %}>Constellations</option>
+        <option value="Satellite" {% if request.GET.type == 'Satellite' %}selected{% endif %}>Satellites</option>
+        <option value="Cluster" {% if request.GET.type == 'Cluster' %}selected{% endif %}>Clusters</option>
+        <option value="Nebula" {% if request.GET.type == 'Nebula' %}selected{% endif %}>Nebulae</option>
+        <option value="Comet" {% if request.GET.type == 'Comet' %}selected{% endif %}>Comets</option>
+        <option value="Galaxy" {% if request.GET.type == 'Galaxy' %}selected{% endif %}>Galaxies</option>
+    </select>
 
-    <div class="card-grid">
+    <button type="submit" class="button button-primary">Search</button>
+
+    <a href="{% url 'objects:object_list' %}" class="button button-secondary">
+        Clear
+    </a>
+</form>
+
+<div class="card-grid">
     {% for obj in objects %}
         <article class="card object-card">
             {% if obj.image %}
@@ -67,12 +84,15 @@
                 </a>
             </div>
         </article>
+
     {% empty %}
         <div class="empty-state">
-            <h2>No celestial objects yet</h2>
-            <p>Your catalogue is empty. Add your first object when the creation form is ready.</p>
-            <a class="button button-primary"
-               href="{% url 'objects:create' %}">Add object</a>
+            <h2>No matching objects found</h2>
+            <p>Try a different search term or object type.</p>
+            <a href="{% url 'objects:object_list' %}"
+               class="button button-secondary">
+                View all objects
+            </a>
         </div>
     {% endfor %}
 </div>

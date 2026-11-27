@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Edit Observation Target</h2>
+
+    <p>Update your planned observation of {{ target.celestial_object.name }}.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="form-buttons">
+            <button type="submit" class="button button-primary">Save Changes</button>
+            <a href="{% url 'planner:calendar' %}?month={{ target.scheduled_date.month }}&year={{ target.scheduled_date.year }}" class="button button-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

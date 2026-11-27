@@ -29,6 +29,16 @@ class ObservationListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return ObservationLog.objects.filter(user=self.request.user).order_by('-date_observed')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['objects'] = CelestialObject.objects.filter(observationlog__user=self.request.user).distinct().order_by('name')
+
+        context['object_types'] = CelestialObject.ObjectTypeChoice.choices
+        context['selected_types'] = self.request.GET.get('type')
+        context['selected_object'] = self.request.GET.get('object', '')
+
+        return context
+
 
 # def observation_create(request, pk=None):
 #     initial = {}
@@ -68,6 +78,17 @@ class ObservationCreateView(LoginRequiredMixin, CreateView):
             ObservationImage.objects.create(observation=self.object, image=img)
 
         return response
+
+    def get_initial(self):
+        initial = super().get_initial()
+
+        if 'pk' in self.kwargs:
+            initial['celestial_object'] = get_object_or_404(
+                CelestialObject,
+                pk=self.kwargs['pk']
+            )
+
+        return initial
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -198,21 +219,27 @@ def gallery(request):
 
 @login_required
 def filter_observations_by_object(request):
-    object = request.GET.get('object')
+    object_type = request.GET.get('type')
+    object_name = request.GET.get('object')
 
-    if object:
-        observations = ObservationLog.objects.filter(
-            user=request.user,
-            celestial_object_id=object).order_by('-date_observed')
-    else:
-        observations = ObservationLog.objects.all().order_by('-date_observed')
+    observations = ObservationLog.objects.filter(user=request.user)
 
-    objects = CelestialObject.objects.filter(user=request.user).order_by('name')
+    if object_type:
+        observations = observations.filter(celestial_object__object_type=object_type)
+
+    if object_name:
+        observations = observations.filter(celestial_object_id=object_name)
+
+    observations =observations.order_by('-date_observed')
+
+    objects = CelestialObject.objects.filter(observationlog__user=request.user).distinct().order_by('name')
 
     context = {
         'observations': observations,
         'objects': objects,
-        'selected_object': object
+        'selected_type': object_type,
+        'selected_object': object_name,
+        'object_types': CelestialObject.ObjectTypeChoice.choices
     }
 
     return render(request, 'observations/observation_list.html', context)

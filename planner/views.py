@@ -1,11 +1,13 @@
 import calendar
 from datetime import date, timedelta
+from multiprocessing import context
+from pydoc import render_doc
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from objects.models import CelestialObject
-from planner.forms import CreateObservationTargetForm
+from planner.forms import CreateObservationTargetForm, EditObservationTargetForm
 from planner.models import ObservationTarget
 
 
@@ -76,4 +78,49 @@ def create_target(request, year, month, day):
     }
 
     return render(request, 'planner/create_target.html', context)
+
+
+@login_required()
+def edit_target(request, pk):
+    target = get_object_or_404(
+        ObservationTarget,
+        pk=pk,
+        user=request.user
+    )
+    form = EditObservationTargetForm(request.POST or None, instance=target)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+
+        return redirect(f'/planner/?month={target.scheduled_date.month}&year={target.scheduled_date.year}')
+
+
+    context = {
+        'form': form,
+        'target': target
+    }
+
+    return render(request, 'planner/edit_target.html', context)
+
+
+def delete_target(request, pk):
+    target = get_object_or_404(
+        ObservationTarget,
+        pk=pk,
+        user=request.user
+    )
+
+    target_date = target.scheduled_date
+
+    if request.method == 'POST':
+        target.delete()
+        return redirect(f'/planner/?month={target_date.month}&year={target_date.year}')
+
+    context = {
+        'target': target
+    }
+
+    return render(request, 'planner/delete_target.html', context)
+
+
 

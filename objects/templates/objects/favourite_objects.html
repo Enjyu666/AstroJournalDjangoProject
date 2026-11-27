@@ -1,0 +1,54 @@
+ {% extends "base.html" %}
+{% load static %}
+{% load astro_filters %}
+
+{% block title %}My Favourites | AstroJournal{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <a class="back-link" href="{% url 'objects:object_list' %}">
+        ← All celestial objects
+    </a>
+
+    <h1>My Favourite Objects</h1>
+    <p>Celestial objects you've saved for later.</p>
+
+    {% if objects %}
+        <div class="object-grid">
+            {% for object in objects %}
+                <div class="object-card">
+
+                    {% if object.image %}
+                        <img src="{{ object.image.url }}"
+                             alt="{{ object.name }}"
+                             class="object-card-image">
+                    {% else %}
+                        <img src="{% static 'images/object-placeholder.png' %}"
+                             alt="Astronomy placeholder"
+                             class="object-card-image">
+                    {% endif %}
+
+                    <span class="type-label">
+                        {{ object.get_object_type_display }}
+                    </span>
+
+                    <h2>{{ object.name|lower_cap_case }}</h2>
+
+                    <a href="{% url 'objects:details' object.pk %}"
+                       class="button button-primary">
+                        View details
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You haven't added any favourite objects yet.</p>
+        <a href="{% url 'objects:object_list' %}" class="button button-primary">
+            Explore celestial objects
+        </a>
+    {% endif %}
+
+</div>
+{% endblock %}

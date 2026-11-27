@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}{{ profile.user.username }}'s Profile | AstroJournal{% endblock %}
@@ -32,6 +31,10 @@
 
     {% if request.user == profile.user %}
         <div class="action-row">
+            <a href="{% url 'objects:favourites' %}" class="button button-secondary">
+                ★ My Favourite Objects
+            </a>
+
             <a href="{% url 'edit_profile' %}" class="button button-primary">
                 Edit profile
             </a>

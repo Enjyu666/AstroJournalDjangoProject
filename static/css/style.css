@@ -768,3 +768,24 @@ input:focus, select:focus, textarea:focus {
         font-size: 0.8rem;
     }
 }
+
+.planned-target {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.planned-target p {
+    margin: 0;
+    flex: 1;
+}
+
+.planned-target .button {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    min-width: auto;
+    width: auto;
+    flex-shrink: 0;
+}

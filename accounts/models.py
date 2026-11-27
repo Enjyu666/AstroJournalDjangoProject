@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from objects.models import CelestialObject
 
 
 class CustomUser(AbstractUser):
@@ -18,3 +19,9 @@ class UserProfile(models.Model):
         upload_to='user_profile_images/'
     )
     is_public = models.BooleanField(default=False)
+
+    favourite_objects = models.ManyToManyField(
+        CelestialObject,
+        blank=True,
+        related_name='favourited_by'
+    )

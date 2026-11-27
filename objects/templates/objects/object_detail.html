@@ -35,10 +35,37 @@
     </div>
 
     <div class="action-row">
-        <a class="button button-primary"
-           href="{% url 'objects:edit' object.pk %}">Edit object</a>
-        <a class="button button-danger-outline"
-           href="{% url 'objects:delete' object.pk %}">Delete</a>
+
+        {% if perms.objects.change_celestialobject %}
+            <a class="button button-primary"
+               href="{% url 'objects:edit' object.pk %}">
+                Edit object
+            </a>
+        {% endif %}
+
+        {% if perms.objects.delete_celestialobject %}
+            <a class="button button-danger-outline"
+               href="{% url 'objects:delete' object.pk %}">
+                Delete
+            </a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'objects:favourite' object.pk %}">
+                {% csrf_token %}
+
+                {% if is_favourite %}
+                    <button type="submit" class="button button-secondary">
+                        ★ Remove from favourites
+                    </button>
+                {% else %}
+                    <button type="submit" class="button button-primary">
+                        ☆ Add to favourites
+                    </button>
+                {% endif %}
+            </form>
+        {% endif %}
+
         <a class="button button-secondary action-right"
            href="{% url 'observations:create_from_object' object.pk %}">
             + Log observation

@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views import View
 
 from objects.forms import CreateObjectForm, BaseObjectForm, EditObjectForm, DeleteObjectForm
 from objects.models import CelestialObject
@@ -21,7 +22,20 @@ class ObjectListView(ListView):
     template_name = 'objects/object_list.html'
     context_object_name = 'objects'
     # permission_required = 'objects.view_celestialobject'
-    queryset = CelestialObject.objects.all().order_by('name')
+    # queryset = CelestialObject.objects.all().order_by('name')
+
+    def get_queryset(self):
+        objects = CelestialObject.objects.all()
+        object_type = self.request.GET.get('type')
+        search_query = self.request.GET.get('q')
+
+        if object_type:
+            objects = objects.filter(object_type=object_type)
+
+        if search_query:
+            objects.filter(name__icontains=search_query)
+
+        return objects.order_by('name')
 
 
 # def object_create(request):
@@ -59,6 +73,18 @@ class ObjectDetailView(DetailView):
     template_name = 'objects/object_detail.html'
     context_object_name = 'objects'
     # permission_required = 'objects.view_celestialobject'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            context['is_favourite'] = self.request.user.profile.favourite_objects.filter(
+                pk=self.object.pk
+            ).exists()
+        else:
+            context['is_favourite'] = False
+
+        return context
 
 
 
@@ -108,20 +134,63 @@ class ObjectDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 
 
-def filter_object_by_type(request):
-    object_type = request.GET.get('type')
+# def filter_object_by_type(request):
+#     object_type = request.GET.get('type')
+#
+#     if object_type:
+#         objects = CelestialObject.objects.filter(object_type=object_type).order_by('name')
+#     else:
+#         objects = CelestialObject.objects.all().order_by('name')
+#
+#     context = {
+#         'objects': objects,
+#         'selected_type': object_type
+#     }
+#
+#     return render(request, 'objects/object_list.html', context)
 
-    if object_type:
-        objects = CelestialObject.objects.filter(object_type=object_type).order_by('name')
-    else:
-        objects = CelestialObject.objects.all().order_by('name')
 
-    context = {
-        'objects': objects,
-        'selected_type': object_type
-    }
+class FavouriteObjectView(LoginRequiredMixin, View):
 
-    return render(request, 'objects/object_list.html', context)
+    def post(self, request, pk):
+        celestial_object = get_object_or_404(CelestialObject, pk=pk)
+        user_profile = request.user.profile
+
+        if user_profile.favourite_objects.filter(pk=pk).exists():
+            user_profile.favourite_objects.remove(celestial_object)
+        else:
+            user_profile.favourite_objects.add(celestial_object)
+
+        return redirect('objects:details', pk=pk)
+
+
+
+class FavouriteObjectsListView(LoginRequiredMixin, ListView):
+    model = CelestialObject
+    template_name = 'objects/favourite_objects.html'
+    context_object_name = 'objects'
+
+    def get_queryset(self):
+        return self.request.user.profile.favourite_objects.all().order_by('name')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
